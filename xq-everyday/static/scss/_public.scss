@@ -1,0 +1,472 @@
+/*---------------------------------------------------------------- 
+// 文件功能描述：通用混合器、模块样式 
+// author：Inthur
+// 时间：2018
+// 修改标识： 
+// 修改描述：
+//----------------------------------------------------------------*/
+
+$bg-color:#0abdea;
+$main-color:#ffd300;
+$border-color:#e0e0e0;
+$font-color:#666;
+
+//宽高
+@mixin elementSize($w,$h){  
+	width: $w;
+	height: $h;
+}
+//旋转
+@mixin transformRotate($angle,$x,$y){     
+	transform: rotate($angle);
+	-ms-transform: rotate($angle);		/* IE 9 */
+	-webkit-transform: rotate($angle);	/* Safari and Chrome */
+	-o-transform: rotate($angle);		/* Opera */
+	-moz-transform: rotate($angle);		/* Firefox */
+	transform-origin:$x $y;             //旋转中心
+	-ms-transform-origin:$x $y;
+	-webkit-transform-origin:$x $y;
+	-o-transform-origin:$x $y;
+	-moz-transform-origin:$x $y;
+}
+//flex布局,方向
+@mixin flexBox($dire){       
+	display: box;
+	display:-webkit-box;  /* iOS 6-, Safari 3.1-6 */
+	display:-moz-box;     /* Firefox 19 */
+	display:-ms-flexbox;
+	display:-webkit-flex; /* Chrome */
+	display: flex;
+	-webkit-flex-direction: $dire;
+	flex-direction: $dire;
+	-moz-flex-direction: $dire;
+	-ms-flex-direction: $dire;
+	-o-flex-direction: $dire; 
+}
+// 居中
+@mixin center($p,$t,$l,$x,$y){
+	position: $p;
+	top: $t;
+	left: $l;
+	transform: translate($x,$y);
+	-ms-transform: translate($x,$y);		/* IE 9 */
+	-webkit-transform: translate($x,$y);	/* Safari and Chrome */
+	-o-transform: translate($x,$y);	/* Opera */
+	-moz-transform: translate($x,$y);	/* Firefox */
+}
+
+// 公用背景
+html,
+body,
+#app{
+	@include elementSize(100%,100%);
+}
+body{
+	font-size: 0.24rem;
+    color: #000;
+	position: relative;
+	// background: $bg-color;
+}
+
+//加载层
+.loading{
+	position: fixed;
+	left: 0;
+	top: 0;
+	z-index: 3000;
+    @include elementSize(100%,100%);
+    background: #fff;
+    font-size: 0.32rem;
+	color: #666;
+	.loading-con{
+		@include center(absolute,50%,50%,-50%,-50%);  
+		text-align: center;
+		img{
+			@include elementSize(2rem,2rem);
+		}
+		p{
+		   padding: 0.2rem;
+		}
+	}
+    
+}
+
+// 公用遮罩
+.mask{
+	@include elementSize(100%,100%);
+	background: rgba(0,0,0,.75); 
+	position: fixed;
+	top: 0;
+	left: 0;
+	z-index: 3000;
+}
+// 提示弹层
+.alert-mask-body{
+	@include elementSize(100%,100%);
+	position: fixed;
+	top: 0;
+	left: 0;
+	z-index: 3000;
+}
+.alert-mask{
+	padding: 0.8rem 0.8rem;
+	@include center(absolute,50%,50%,-50%,-50%);
+	background: rgba(0,0,0,.5);
+	border-radius: 0.2rem; 
+	color: #fff;
+    font-size: 0.3rem;
+    text-align: center;
+}
+
+//底部提示
+.bottom-tips{
+	font-size: 0.26rem;
+	text-align: center;
+	color: #bbb;
+	padding: 0.48rem 0;
+}
+
+
+// 按钮
+.btn{
+	background: $main-color;
+	color: #fff;
+	text-align: center; 
+}
+// 选中
+.chose{
+	
+}
+
+// 底部加载提示
+.t-bottom{
+    font-size: 0.22rem;
+    text-align: center;
+    padding:0.6rem 0 2rem; 
+}
+
+//回到顶部
+.goback-box{
+	position: fixed;
+	bottom: 0;
+	right: 0;
+	z-index: 80;
+	.goback{
+		position: absolute;
+		bottom: 2.46rem;
+		right: 0.1rem;
+		// z-index: 80;
+		img{
+			@include elementSize(0.92rem,1.02rem);  
+		}
+	}
+}
+// 滚动条动画
+.slide-fade-enter-active {
+	transition: all .3s ease;
+	-webkit-transition: all .3s ease;
+}
+.slide-fade-leave-active {
+	transition: all .3s cubic-bezier(1.0, 0.5, 0.8, 1.0);
+	-webkit-transition: all .3s cubic-bezier(1.0, 0.5, 0.8, 1.0);
+}
+.slide-fade-enter 
+//   .slide-fade-leave-to/* .slide-fade-leave-active for below version 2.1.8 */ 
+{
+	transform: translateY(1rem);
+	-webkit-transform: translateY(1rem);
+	opacity: 0;
+}
+.slide-fade-leave-to{
+	transform: translateY(-4rem);
+	-webkit-transform: translateY(-4rem);
+	opacity: 0;
+}
+
+//翻页	
+.page-enter-active{
+	animation-name:fadeInRight;
+	animation-duration:.2s;
+}
+.page-leave-active{
+	animation-name:fadeOut;
+	animation-duration:.2s;
+}
+
+//弹层
+.mask-enter-active{
+	animation-name:zoomIn;
+	animation-duration:.2s;
+}
+.mask-leave-active{
+	animation-name:fadeOut;
+	animation-duration:.2s;
+}
+
+//弹层
+.upDown-enter-active{
+	animation-name:fadeInUp;
+	animation-duration:.3s;
+}
+.upDown-leave-active{
+	animation-name:fadeOut;
+	animation-duration:.2s;
+}
+
+//图片缓存	
+.pic-cache{
+	@include elementSize(0rem,0rem);
+	overflow: hidden;
+	.pic0{
+		background: url('../img/like-y.png') no-repeat 0 center;
+	}
+	.pic1{
+		background: url('../img/record1.png') no-repeat 0 center;
+	}
+	.pic2{
+		background: url('../img/record2.png') no-repeat 0 center;
+	}
+	.pic3{
+		background: url('../img/record3.png') no-repeat 0 center;
+	}
+	.pic4{
+		background: url('../img/record4.png') no-repeat 0 center;
+	}
+	.pic5{
+		background: url('../img/record-cancel.png') no-repeat 0 center;
+	}
+}
+
+/* 助教 */
+@-webkit-keyframes zjhide {
+	0% {
+		@include transformRotate(0deg,100%,10%)
+	}
+	100% {
+		@include transformRotate(-90deg,100%,10%)
+	}
+}
+
+@keyframes zjhide {
+	0% {
+		@include transformRotate(0deg,100%,10%)
+	}
+	100% {
+		@include transformRotate(-90deg,100%,10%)
+	}
+}
+@-webkit-keyframes zjshow {
+	0% {
+		@include transformRotate(-90deg,100%,10%)
+	}
+	100% {
+		@include transformRotate(0deg,100%,10%)
+	}
+}
+
+@keyframes zjshow {
+	0% {
+		@include transformRotate(-90deg,100%,10%)
+	}
+	100% {
+		@include transformRotate(0deg,100%,10%)
+	}
+}
+
+/* 动画 */
+@keyframes record{
+	0%  {
+			background: url('../img/record1.png') no-repeat 0 center;
+			background-size: 100% 100%;
+		}
+	34% {
+			background: url('../img/record2.png') no-repeat 0 center;
+			background-size: 100% 100%;
+		}
+	68% {
+			background: url('../img/record3.png') no-repeat 0 center;
+			background-size: 100% 100%;
+		}	
+	100%{
+			background: url('../img/record4.png') no-repeat 0 center;
+			background-size: 100% 100%;
+		}
+}
+@-moz-keyframes record /* Firefox */
+{
+	0%  {
+		background: url('../img/record1.png') no-repeat 0 center;
+		background-size: 100% 100%;
+		}
+	34% {
+			background: url('../img/record2.png') no-repeat 0 center;
+			background-size: 100% 100%;
+		}
+	68% {
+			background: url('../img/record3.png') no-repeat 0 center;
+			background-size: 100% 100%;
+		}	
+	100%{
+			background: url('../img/record4.png') no-repeat 0 center;
+			background-size: 100% 100%;
+		}
+}
+@-webkit-keyframes record /* Safari 和 Chrome */
+{
+	0%  {
+		background: url('../img/record1.png') no-repeat 0 center;
+		background-size: 100% 100%;
+		}
+	34% {
+			background: url('../img/record2.png') no-repeat 0 center;
+			background-size: 100% 100%;
+		}
+	68% {
+			background: url('../img/record3.png') no-repeat 0 center;
+			background-size: 100% 100%;
+		}	
+	100%{
+			background: url('../img/record4.png') no-repeat 0 center;
+			background-size: 100% 100%;
+		}
+}
+@-o-keyframes record /* Opera */
+{
+	0%  {
+		background: url('../img/record1.png') no-repeat 0 center;
+		background-size: 100% 100%;
+		}
+	34% {
+			background: url('../img/record2.png') no-repeat 0 center;
+			background-size: 100% 100%;
+		}
+	68% {
+			background: url('../img/record3.png') no-repeat 0 center;
+			background-size: 100% 100%;
+		}	
+	100%{
+			background: url('../img/record4.png') no-repeat 0 center;
+			background-size: 100% 100%;
+		}
+}
+
+//声音播放
+@keyframes voicebg{
+	0%  {
+			background: #f3f5f7 url('../img/gif/v-1.png') no-repeat 0.3rem center;
+			background-size: 0.28rem 0.38rem;
+		}
+	50% {
+			background: #f3f5f7 url('../img/gif/v-2.png') no-repeat 0.3rem center;
+			background-size: 0.28rem 0.38rem;
+		}
+	100% {
+			background: #f3f5f7 url('../img/gif/v-3.png') no-repeat 0.3rem center;
+			background-size: 0.28rem 0.38rem;
+		}
+}
+@-moz-keyframes voicebg /* Firefox */
+{
+	0%  {
+		background: #f3f5f7 url('../img/gif/v-1.png') no-repeat 0.3rem center;
+		background-size: 0.28rem 0.38rem;
+		}
+	50% {
+			background: #f3f5f7 url('../img/gif/v-2.png') no-repeat 0.3rem center;
+			background-size: 0.28rem 0.38rem;
+		}
+	100% {
+			background: #f3f5f7 url('../img/gif/v-3.png') no-repeat 0.3rem center;
+			background-size: 0.28rem 0.38rem;
+		}
+}
+@-webkit-keyframes voicebg /* Safari 和 Chrome */
+{
+	0%  {
+		background: #f3f5f7 url('../img/gif/v-1.png') no-repeat 0.3rem center;
+		background-size: 0.28rem 0.38rem;
+		}
+	50% {
+			background:#f3f5f7 url('../img/gif/v-2.png') no-repeat 0.3rem center;
+			background-size: 0.28rem 0.38rem;
+		}
+	100% {
+			background:#f3f5f7 url('../img/gif/v-3.png') no-repeat 0.3rem center;
+			background-size: 0.28rem 0.38rem;
+		}
+}
+@-o-keyframes voicebg /* Opera */
+{
+	0%  {
+		background: #f3f5f7 url('../img/gif/v-1.png') no-repeat 0.3rem center;
+		background-size: 0.28rem 0.38rem;
+		}
+	50% {
+			background: #f3f5f7 url('../img/gif/v-2.png') no-repeat 0.3rem center;
+			background-size: 0.28rem 0.38rem;
+		}
+	100% {
+			background: #f3f5f7 url('../img/gif/v-3.png') no-repeat 0.3rem center;
+			background-size: 0.28rem 0.38rem;
+		}
+}
+//示范音播放
+@keyframes musicbg{
+	0%  {
+			background: url('../img/gif/m-1.png') no-repeat right center;
+			background-size: 0.38rem 0.52rem;
+		}
+	50% {
+			background: url('../img/gif/m-2.png') no-repeat right center;
+			background-size: 0.38rem 0.52rem;
+		}
+	100% {
+			background: url('../img/gif/m-3.png') no-repeat right center;
+			background-size: 0.38rem 0.52rem;
+		}
+}
+@-moz-keyframes musicbg /* Firefox */
+{
+	0%  {
+		background: url('../img/gif/m-1.png') no-repeat right center;
+		background-size: 0.38rem 0.52rem;
+		}
+	50% {
+			background: url('../img/gif/m-2.png') no-repeat right center;
+			background-size: 0.38rem 0.52rem;
+		}
+	100% {
+			background: url('../img/gif/m-3.png') no-repeat right center;
+			background-size: 0.38rem 0.52rem;
+		}
+}
+@-webkit-keyframes musicbg /* Safari 和 Chrome */
+{
+	0%  {
+		background: url('../img/gif/m-1.png') no-repeat right center;
+		background-size: 0.38rem 0.52rem;
+		}
+	50% {
+			background: url('../img/gif/m-2.png') no-repeat right center;
+			background-size: 0.38rem 0.52rem;
+		}
+	100% {
+			background: url('../img/gif/m-3.png') no-repeat right center;
+			background-size: 0.38rem 0.52rem;
+		}
+}
+@-o-keyframes musicbg /* Opera */
+{
+	0%  {
+		background: url('../img/gif/m-1.png') no-repeat right center;
+		background-size: 0.38rem 0.52rem;
+		}
+	50% {
+			background: url('../img/gif/m-2.png') no-repeat right center;
+			background-size: 0.38rem 0.52rem;
+		}
+	100% {
+			background: url('../img/gif/m-3.png') no-repeat right center;
+			background-size: 0.38rem 0.52rem;
+		}
+}
